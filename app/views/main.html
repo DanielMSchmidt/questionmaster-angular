@@ -1,8 +1,12 @@
 <div class="hero-unit">
+  <div class="new_question">
+    <input ng-model="newQuestion.question"></input>
+    <input ng-model="newQuestion.answer"></input>
+    <button class="save" ng-click="save(newQuestion)">Save</button>
+  </div>
   <ul>
     <li ng-repeat="question in questions">
-      <span ng-click="question.answerShown = !question.answerShown" ng-hide="question.answerShown">{{ question.question }}</span>
-      <span ng-click="question.answerShown = !question.answerShown" ng-show="question.answerShown">{{ question.answer }}</span>
+      <div question></div>
     </li>
   </ul>
 </div>

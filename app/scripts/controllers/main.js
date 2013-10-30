@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('questionmasterAngularApp')
-  .controller('MainCtrl', function ($scope) {
+var app = angular.module('questionmasterAngularApp');
+
+app.controller('MainCtrl', function ($scope) {
+    $scope.save = function(newQuestion){
+      console.log("Yeah, well i didn't saved that one exactly");
+      $scope.newQuestion = {}
+    }
+
     $scope.questions = [
       {
         'question': 'Where are my keys?',
@@ -15,3 +21,9 @@ angular.module('questionmasterAngularApp')
       }
     ];
   });
+
+app.directive('question', function(){
+  return {
+    templateUrl: 'views/directives/question.html'
+  }
+});
