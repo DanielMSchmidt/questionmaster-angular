@@ -1,9 +1,8 @@
 <div class="hero-unit">
-  <h1>'Allo, 'Allo!</h1>
-  <p>You now have</p>
   <ul>
-      <li ng-repeat="thing in awesomeThings">{{thing}}</li>
+    <li ng-repeat="question in questions">
+      <span ng-click="question.answerShown = !question.answerShown" ng-hide="question.answerShown">{{ question.question }}</span>
+      <span ng-click="question.answerShown = !question.answerShown" ng-show="question.answerShown">{{ question.answer }}</span>
+    </li>
   </ul>
-  <p>installed.</p>
-  <h3>Enjoy coding! - Yeoman</h3>
 </div>
