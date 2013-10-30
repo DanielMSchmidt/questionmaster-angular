@@ -5,7 +5,7 @@
     <button class="save" ng-click="save(newQuestion)">Save</button>
   </div>
   <ul>
-    <li ng-repeat="question in questions">
+    <li ng-repeat="question in questions | reverse">
       <div question></div>
     </li>
   </ul>
