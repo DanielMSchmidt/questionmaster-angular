@@ -16,7 +16,9 @@ describe('Controller: MainCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should have an array of questions', function () {
+    expect(Object.prototype.toString.call( scope.questions )).toBe('[object Array]');
   });
+
+  // TODO: Add some tests, which test if localstorage is hit on curd methods of Storage
 });
