@@ -27,29 +27,33 @@ app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
 }]);
 
 app.service('Storage', function(){
+  var USERKEY = "MeUser";
+
+  var getKey = function(question){
+    return USERKEY + question.question;
+  }
+
   return {
     addQuestion: function(question){
-      console.log("added question :)");
+      localStorage.setItem(getKey(question), angular.toJson(question));
     },
     removeQuestion: function(question){
-      console.log("removed question :)");
+      localStorage.removeItem(getKey(question));
     },
     getQuestions: function(){
-      return [
-        {
-          'question': 'Where are my keys?',
-          'answer': 'Behind you'
-        },{
-          'question': 'How much is the fish?',
-          'answer': '4.20 &euro;'
-        },{
-          'question': 'Where is Google',
-          'answer': '<a href="http://www.google.de">Here</a>'
+      var questions = [];
+      for(var i = 0, len = localStorage.length; i < len; i++){
+        var key = localStorage.key(i);
+
+        // To later only catch items of one topic domain
+        if (key.indexOf(USERKEY) === 0){
+          questions.push(angular.fromJson(localStorage[key]));
         }
-      ];
+      }
+      return questions;
     }
   }
-})
+});
 
 app.directive('question', function(){
   return {
