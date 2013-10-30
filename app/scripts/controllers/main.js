@@ -5,33 +5,33 @@ var app = angular.module('questionmasterAngularApp');
 app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
   var defaultQuestion = function(){
     return {
-      question: "...",
-      answer: "..."
-    }
-  }
+      question: '...',
+      answer: '...'
+    };
+  };
 
   $scope.newQuestion = defaultQuestion();
 
   $scope.save = function(newQuestion){
-    if($scope.newQuestion.question !== defaultQuestion().question){
-      $scope.questions.push($scope.newQuestion);
-      Storage.addQuestion($scope.newQuestion);
-      $scope.newQuestion = defaultQuestion();
+    if(newQuestion.question !== defaultQuestion().question){
+      $scope.questions.push(newQuestion);
+      Storage.addQuestion(newQuestion);
+      newQuestion = defaultQuestion();
     }else{
       // Don't add if it doesnt differ
     }
-  }
+  };
 
   $scope.questions = Storage.getQuestions();
 
 }]);
 
 app.service('Storage', function(){
-  var USERKEY = "MeUser";
+  var USERKEY = 'MeUser';
 
   var getKey = function(question){
     return USERKEY + question.question;
-  }
+  };
 
   return {
     addQuestion: function(question){
@@ -52,13 +52,13 @@ app.service('Storage', function(){
       }
       return questions;
     }
-  }
+  };
 });
 
 app.directive('question', function(){
   return {
     templateUrl: 'views/directives/question.html'
-  }
+  };
 });
 
 app.filter('reverse', function() {
