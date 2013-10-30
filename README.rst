@@ -26,6 +26,7 @@ Improvements:
 - Provide a possibility to change btw different subjects / topics
 - Provide a possibility to take a test
 - Provide a possibility to search through your questions
+- Add an error screen if localstorage isn't supported
 
 Further Plans:
 
