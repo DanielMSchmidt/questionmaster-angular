@@ -13,11 +13,12 @@ app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
   $scope.newQuestion = defaultQuestion();
 
   $scope.save = function(newQuestion){
-    // Don't add if it doesnt differ
     if($scope.newQuestion.question !== defaultQuestion().question){
       $scope.questions.push($scope.newQuestion);
       Storage.addQuestion($scope.newQuestion);
       $scope.newQuestion = defaultQuestion();
+    }else{
+      // Don't add if it doesnt differ
     }
   }
 
