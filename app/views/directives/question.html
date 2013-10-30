@@ -1,2 +1,4 @@
-<span ng-click="question.answerShown = !question.answerShown" ng-hide="question.answerShown">{{ question.question }}</span>
-<span ng-click="question.answerShown = !question.answerShown" ng-show="question.answerShown">{{ question.answer }}</span>
+<div class="question-box">
+  <span class="qb-question" ng-click="question.answerShown = !question.answerShown" ng-hide="question.answerShown">{{ question.question }}</span>
+  <span class="qb-answer" ng-click="question.answerShown = !question.answerShown" ng-show="question.answerShown">{{ question.answer }}</span>
+</div>
