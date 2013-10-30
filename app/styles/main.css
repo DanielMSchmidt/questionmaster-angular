@@ -6,7 +6,7 @@ body {
 
 .hero-unit {
     margin: 50px auto 0 auto;
-    width: 300px;
+    width: 80vw;
     font-size: 18px;
     font-weight: 200;
     line-height: 30px;
@@ -19,4 +19,8 @@ body {
     font-size: 60px;
     line-height: 1;
     letter-spacing: -1px;
+}
+
+[ng-click] {
+  cursor: pointer;
 }
