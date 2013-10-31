@@ -107,7 +107,8 @@ module.exports = function (grunt) {
         jshintrc: '.jshintrc'
       },
       all: [
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
+        '<%= yeoman.app %>/scripts/{,*/}*.js',
+      '!<%= yeoman.app %>/scripts/vendor/{,*/}*.js'
       ]
     },
     coffee: {
