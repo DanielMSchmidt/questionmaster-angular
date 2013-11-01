@@ -13,8 +13,7 @@ describe('Service: Storage', function () {
 
   it('should have all expected methods', function () {
     expect(Storage.createQuestionAccessor).not.toBeUndefined();
-    expect(Storage.getAllTopics).not.toBeUndefined();
-    expect(Storage.getActiveTopic).not.toBeUndefined();
+    expect(Storage.createTopicAccessor).not.toBeUndefined();
   });
 
   it('should be able to access questions', function () {
@@ -34,5 +33,46 @@ describe('Service: Storage', function () {
 
     store.removeQuestion(question);
     expect(store.getQuestions()).toEqual([]);
+  });
+
+  it('should be able to get an active topic', function () {
+    var store = Storage.createTopicAccessor();
+
+    expect(store.getActiveTopic()).not.toBeUndefined();
+  });
+
+  it('should be able to set a topic as active', function () {
+    var store = Storage.createTopicAccessor();
+
+    store.setActiveTopic('Neues Topic');
+    expect(store.getActiveTopic()).toEqual('Neues Topic');
+  });
+
+  it('should add a new active topic the topicslist if it wasnt added', function () {
+    var store = Storage.createTopicAccessor();
+    var len = store.getTopics().length;
+
+    store.setActiveTopic('Another Topic');
+    expect(store.getTopics().length).toEqual(len + 1);
+  });
+
+  it('shouldnt add a topic twice', function () {
+    var store = Storage.createTopicAccessor();
+
+    store.setActiveTopic('A known Topic');
+    var len = store.getTopics().length;
+    store.setActiveTopic('A known Topic');
+
+    expect(store.getTopics().length).toEqual(len);
+  });
+
+  it('should be able to remove a topic', function (){
+    var store = Storage.createTopicAccessor();
+
+    store.setActiveTopic('A known Topic');
+    var len = store.getTopics().length;
+    store.removeTopic('A known Topic');
+
+    expect(store.getTopics().length).toEqual(len - 1);
   });
 });

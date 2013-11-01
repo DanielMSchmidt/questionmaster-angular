@@ -34,18 +34,46 @@
       };
     };
 
-    var getAllTopics = function (){
+    var createTopicAccessor = function (){
+      var allTopics = function () {
+        var topics = angular.fromJson(localStorage.getItem('topics'));
+        if (topics === undefined || topics === null){
+          topics = [];
+        }
+        return topics;
+      };
 
+      return {
+        setActiveTopic: function (newTopic){
+          var topics = allTopics();
+
+          if (topics.indexOf(newTopic) === -1){
+            topics.push(newTopic);
+          }
+
+          localStorage.setItem('topics', angular.toJson(topics));
+          localStorage.setItem('active_topic', angular.toJson(newTopic));
+        },
+        getTopics: allTopics,
+        removeTopic: function(formerTopic) {
+          var topics = allTopics();
+          var pos = topics.indexOf(formerTopic);
+          if (pos > -1){
+            topics.splice(pos, 1);
+          }
+
+          localStorage.setItem('topics', angular.toJson(topics));
+          localStorage.setItem('active_topic', angular.toJson(topics[0]));
+        },
+        getActiveTopic: function() {
+          return angular.fromJson(localStorage.getItem('active_topic'));
+        }
+      };
     };
 
-    var getActiveTopic = function (){
-
-    };
-
-     return {
+    return {
       createQuestionAccessor: createQuestionAccessor,
-      getAllTopics: getAllTopics,
-      getActiveTopic: getActiveTopic
-     };
+      createTopicAccessor: createTopicAccessor
+    };
   });
 }());
