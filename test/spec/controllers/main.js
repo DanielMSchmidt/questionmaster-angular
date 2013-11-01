@@ -41,4 +41,12 @@ describe('Controller: MainCtrl', function () {
     expect(localStorage.length).toBe(oldLen);
   });
 
+  // TODO: It shouldn't add a question without topic
+
+  // TODO: Add tests for changing the topic
+
+  // TODO: Can't add same named topic
+
+  // TODO: Test service
+
 });

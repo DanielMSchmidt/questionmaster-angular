@@ -1,12 +1,22 @@
-<div class="hero-unit">
-  <div class="new_question">
-    <input ng-model="newQuestion.question"></input>
-    <input ng-model="newQuestion.answer"></input>
-    <button class="save" ng-click="save(newQuestion)">Save</button>
+<div class="row">
+  <form class="new_question panel">
+    <div class="row">
+      <div class="large-6 columns">
+        <label>Frage</label>
+        <textarea ng-model="newQuestion.question"></textarea>
+      </div>
+      <div class="large-6 columns">
+        <label>Antwort</label>
+        <textarea ng-model="newQuestion.answer"></textarea>
+      </div>
+      <button class="save large button expand" ng-click="save(newQuestion)">Save</button>
+    </div>
+  </form>
+  <div class="content large-9 columns large-centered">
+    <ul class="">
+      <li ng-repeat="question in questions | reverse">
+        <div question></div>
+      </li>
+    </ul>
   </div>
-  <ul>
-    <li ng-repeat="question in questions | reverse">
-      <div question></div>
-    </li>
-  </ul>
 </div>

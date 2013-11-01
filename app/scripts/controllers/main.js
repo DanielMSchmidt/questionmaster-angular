@@ -1,59 +1,33 @@
 'use strict';
 
 var app = angular.module('questionmasterAngularApp');
-
-app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
-  var defaultQuestion = function(){
+app.defaultQuestion = function(){
     return {
       question: '...',
       answer: '...'
     };
   };
+app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
 
-  $scope.newQuestion = defaultQuestion();
+  // Initialization
+  $scope.topics = [];
+  $scope.activeTopic = "MeinThema";
+  $scope.newQuestion = app.defaultQuestion();
+  var store = Storage.createTopicAccessor($scope.activeTopic);
 
   $scope.save = function(newQuestion){
-    if(newQuestion.question !== defaultQuestion().question){
+    if(newQuestion.question !== app.defaultQuestion().question){
       $scope.questions.push(newQuestion);
-      Storage.addQuestion(newQuestion);
-      newQuestion = defaultQuestion();
+      store.addQuestion(newQuestion);
+      newQuestion = app.defaultQuestion();
     }else{
       // Don't add if it doesnt differ
     }
   };
 
-  $scope.questions = Storage.getQuestions();
+  $scope.questions = store.getQuestions();
 
 }]);
-
-app.service('Storage', function(){
-  var USERKEY = 'MeUser';
-
-  var getKey = function(question){
-    return USERKEY + question.question;
-  };
-
-  return {
-    addQuestion: function(question){
-      localStorage.setItem(getKey(question), angular.toJson(question));
-    },
-    removeQuestion: function(question){
-      localStorage.removeItem(getKey(question));
-    },
-    getQuestions: function(){
-      var questions = [];
-      for(var i = 0, len = localStorage.length; i < len; i++){
-        var key = localStorage.key(i);
-
-        // To later only catch items of one topic domain
-        if (key.indexOf(USERKEY) === 0){
-          questions.push(angular.fromJson(localStorage[key]));
-        }
-      }
-      return questions;
-    }
-  };
-});
 
 app.directive('question', function(){
   return {
