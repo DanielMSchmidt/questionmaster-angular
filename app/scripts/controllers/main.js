@@ -7,23 +7,32 @@ app.defaultQuestion = function(){
       answer: '...'
     };
   };
-app.defaultTopic = 'Neues Thema';
+app.defaultTopic = function() {return 'Neues Thema';};
 
 app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
 
   // Initialization
-  $scope.topics = ['MeinThema'];
-  $scope.activeTopic = $scope.topics[0];
   $scope.newQuestion = app.defaultQuestion();
+  $scope.newTopic = app.defaultTopic();
 
   // Access stored data
-  var store = Storage.createQuestionAccessor($scope.activeTopic);
-  $scope.questions = store.getQuestions();
+  var questionStore = Storage.createQuestionAccessor($scope.activeTopic);
+  $scope.questions = questionStore.getQuestions();
+
+  var topicStore = Storage.createTopicAccessor();
+  $scope.topics = topicStore.getTopics();
+  $scope.activeTopic = topicStore.getActiveTopic();
+
+  if ($scope.activeTopic === undefined){
+    // TODO: get me nicer than this
+    $scope.activeTopic = app.defaultTopic();
+    topicStore.setActiveTopic($scope.activeTopic);
+  }
 
   $scope.save = function(newQuestion){
     if($scope.activeTopic && newQuestion.question !== app.defaultQuestion().question){
       $scope.questions.push(newQuestion);
-      store.addQuestion(newQuestion);
+      questionStore.addQuestion(newQuestion);
       newQuestion = app.defaultQuestion();
     }else{
       // Don't add if it doesnt differ
@@ -34,14 +43,11 @@ app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
     if((newTopicName === undefined)){
       return false;
     }
-    if ($scope.topics.indexOf(newTopicName) === -1){
-      // TODO: Put a watch on it, so it gets stored in localstorage
-      $scope.topics.push(newTopicName);
-    }
+    topicStore.setActiveTopic(newTopicName);
 
     $scope.activeTopic = newTopicName;
-    store = Storage.createQuestionAccessor($scope.activeTopic);
-    $scope.questions = store.getQuestions();
+    questionStore = Storage.createQuestionAccessor($scope.activeTopic);
+    $scope.questions = questionStore.getQuestions();
   }
 
 

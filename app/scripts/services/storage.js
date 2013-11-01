@@ -66,7 +66,11 @@
           localStorage.setItem('active_topic', angular.toJson(topics[0]));
         },
         getActiveTopic: function() {
-          return angular.fromJson(localStorage.getItem('active_topic'));
+          var lsItem = angular.fromJson(localStorage.getItem('active_topic'));
+          if (lsItem === undefined || lsItem === null){
+            lsItem = allTopics()[0];
+          }
+          return lsItem;
         }
       };
     };
