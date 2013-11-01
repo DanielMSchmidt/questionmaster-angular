@@ -16,10 +16,7 @@ Todos
 
 Refactorings:
 
-- Split different concerns into different files
-- move the new question into template / partial
-- generate a unique string for each user (Or leave an app specific, not sure if matters)
-- Add zurb-foundation
+- move the new question into template / partial (http://docs.angularjs.org/api/ng.directive:ngInclude)
 
 Improvements:
 
@@ -30,4 +27,4 @@ Improvements:
 
 Further Plans:
 
-- Add a simple Rails API, which returns an url for a send topic (to share with friends). This can than be imported in your app (user specific string would bother here)
+- Add a simple Rails API, which returns an url for a send topic (to share with friends). This can than be imported in your app
