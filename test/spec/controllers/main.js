@@ -66,6 +66,4 @@ describe('Controller: MainCtrl', function () {
     expect(scope.topics.length).toBe(1);
   });
 
-  // TODO: Test service
-
 });

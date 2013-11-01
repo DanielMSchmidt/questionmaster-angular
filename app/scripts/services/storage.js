@@ -32,8 +32,20 @@
           return questions;
         }
       };
-    }
+    };
 
-     return { createQuestionAccessor: createQuestionAccessor};
+    var getAllTopics = function (){
+
+    };
+
+    var getActiveTopic = function (){
+
+    };
+
+     return {
+      createQuestionAccessor: createQuestionAccessor,
+      getAllTopics: getAllTopics,
+      getActiveTopic: getActiveTopic
+     };
   });
 }());
