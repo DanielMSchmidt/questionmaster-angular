@@ -7,7 +7,13 @@ app.defaultQuestion = function(){
       answer: '...'
     };
   };
-app.defaultTopic = function() {return 'Neues Thema';};
+app.defaultTopic = function() {
+  return {
+    name: 'Neues Thema',
+    questions: [],
+    active: false
+  };
+};
 
 app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
 
@@ -16,42 +22,33 @@ app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
   $scope.newTopic = app.defaultTopic();
 
   // Access stored data
-  var questionStore = Storage.createQuestionAccessor($scope.activeTopic);
-  $scope.questions = questionStore.getQuestions();
+  $scope.topics = Storage.getTopics();
+  $scope.activeTopic = undefined; // TODO: search for topic where topic is active
+  $scope.questions = $scope.activeTopic.questions;
 
-  var topicStore = Storage.createTopicAccessor();
-  $scope.topics = topicStore.getTopics();
-  $scope.activeTopic = topicStore.getActiveTopic();
-
-  if ($scope.activeTopic === undefined){
-    // TODO: get me nicer than this
-    $scope.activeTopic = app.defaultTopic();
-    topicStore.setActiveTopic($scope.activeTopic);
-  }
-
-  $scope.save = function(newQuestion){
-    if($scope.activeTopic && newQuestion.question !== app.defaultQuestion().question){
-      $scope.questions.push(newQuestion);
-      questionStore.addQuestion(newQuestion);
-      newQuestion = app.defaultQuestion();
+  $scope.addQuestion = function(){
+    if($scope.newQuestion.question === app.defaultQuestion().question){
+      return ;
     }else{
-      // Don't add if it doesnt differ
+      $scope.questions.push($scope.newQuestion);
+      $scope.newQuestion = app.defaultQuestion();
     }
   };
 
-  $scope.changeTopic = function (newTopicName){
-    if((newTopicName === undefined)){
-      return false;
+  $scope.changeTopic = function() {
+    if(($scope.newTopic === undefined)){
+      return ;
+    }else{
+      $scope.activeTopic = $scope.newTopic;
+      $scope.questions = Storage.changeTopic($scope.newTopic);
     }
-    topicStore.setActiveTopic(newTopicName);
+  };
 
-    $scope.activeTopic = newTopicName;
-    questionStore = Storage.createQuestionAccessor($scope.activeTopic);
-    $scope.questions = questionStore.getQuestions();
-  }
-
-
-
+  $scope.$watch('questions', function(newVal, oldVal){
+    console.log(newVal);
+    console.log(oldVal);
+    Storage.saveTopics($scope.topics);
+  });
 }]);
 
 app.directive('question', function(){
