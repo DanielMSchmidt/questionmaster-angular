@@ -5,7 +5,7 @@
 
   app.service('Storage', function(){
 
-    var createTopicAccessor = function (topic){
+    var createQuestionAccessor = function (topic){
       var USERKEY = topic;
 
       var getKey = function(question){
@@ -34,6 +34,6 @@
       };
     }
 
-     return { createTopicAccessor: createTopicAccessor};
+     return { createQuestionAccessor: createQuestionAccessor};
   });
 }());
