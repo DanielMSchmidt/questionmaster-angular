@@ -41,11 +41,30 @@ describe('Controller: MainCtrl', function () {
     expect(localStorage.length).toBe(oldLen);
   });
 
-  // TODO: It shouldn't add a question without topic
+  it('should not add a question if there is no topic', function() {
+    var oldLen = localStorage.length;
 
-  // TODO: Add tests for changing the topic
+    scope.activeTopic = undefined;
+    scope.save({'question': 'I am', 'answer': 'valid'});
 
-  // TODO: Can't add same named topic
+    expect(localStorage.length).toBe(oldLen);
+  });
+
+  it('should change the count of questions if topic changes', function() {
+    var firstTopicLen = scope.questions.length;
+
+    scope.changeTopic('My New Topic');
+
+    expect(scope.questions.length).not.toBe(firstTopicLen);
+  });
+
+  it('shouldnt be able to add a topic with an already existing name', function() {
+    scope.topics = ['Hallo Welt'];
+
+    scope.changeTopic('Hallo Welt');
+
+    expect(scope.topics.length).toBe(1);
+  });
 
   // TODO: Test service
 
