@@ -44,6 +44,15 @@ module.exports = function (grunt) {
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      test: {
+        files: [
+          '<%= yeoman.app %>/{,*/}*.html',
+          '.tmp/styles/{,*/}*.css',
+          '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
+          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+        ],
+        tasks: ['test']
       }
     },
     autoprefixer: {
@@ -351,6 +360,10 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin'
+  ]);
+
+  grunt.registerTask('ci', [
+    'watch:test'
   ]);
 
   grunt.registerTask('default', [
