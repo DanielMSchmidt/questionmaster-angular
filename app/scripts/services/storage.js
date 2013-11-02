@@ -4,12 +4,13 @@
   app = angular.module('questionmasterAngularApp');
 
   app.service('Storage', function(){
+    var TOPICS_KEY = 'topics';
     var accessor = {
       getTopics: function(){
-        return angular.fromJson(localStorage.getItem('topics'));
+        return angular.fromJson(localStorage.getItem(TOPICS_KEY));
       },
       saveTopics: function(topics){
-        localStorage.setItem('topics', angular.toJson(topics));
+        localStorage.setItem(TOPICS_KEY, angular.toJson(topics));
       },
       changeTopic: function(newTopic){
         var topics = accessor.getTopics();
@@ -22,8 +23,7 @@
           topics.push(newTopic)
         }
         accessor.saveTopics(topics);
-        console.log(newTopic);
-        console.log(newTopic.questions);
+
         return newTopic.questions;
       }
     };
