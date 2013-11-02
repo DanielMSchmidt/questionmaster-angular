@@ -15,7 +15,14 @@ app.defaultTopic = function() {
   };
 };
 
-app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
+app.controller('MainCtrl', ['$scope', '$location', 'Storage', function ($scope, $location, Storage) {
+  var setActiveTopic = function(){
+    $scope.topics.forEach(function(topic){
+      if (topic.active){
+        $scope.activeTopic = topic;
+      }
+    });
+  };
 
   // Initialization
   $scope.newQuestion = app.defaultQuestion();
@@ -23,7 +30,13 @@ app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
 
   // Access stored data
   $scope.topics = Storage.getTopics();
-  $scope.activeTopic = undefined; // TODO: search for topic where topic is active
+
+  setActiveTopic();
+  if($scope.activeTopic === undefined){
+    $location.path('/topic/new');
+    return;
+  }
+
   $scope.questions = $scope.activeTopic.questions;
 
   $scope.addQuestion = function(){
@@ -39,8 +52,9 @@ app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
     if(($scope.newTopic === undefined)){
       return ;
     }else{
-      $scope.activeTopic = $scope.newTopic;
       $scope.questions = Storage.changeTopic($scope.newTopic);
+      $scope.topics = Storage.getTopics();
+      setActiveTopic();
     }
   };
 

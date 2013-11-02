@@ -32,6 +32,11 @@ describe('Service: Storage', function () {
 
   it('should be able to change the topic', function(){
     expect(Storage.changeTopic(topics[0])).toEqual([]);
+    expect(Storage.getTopics()[0].active).toEqual(true);
+    expect(Storage.getTopics()[1].active).toEqual(false);
+
     expect(Storage.changeTopic(topics[1])).toEqual([{question: "What?", answer: "42"}]);
+    expect(Storage.getTopics()[0].active).toEqual(false);
+    expect(Storage.getTopics()[1].active).toEqual(true);
   });
 });
