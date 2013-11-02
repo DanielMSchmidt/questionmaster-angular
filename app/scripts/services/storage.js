@@ -4,17 +4,29 @@
   app = angular.module('questionmasterAngularApp');
 
   app.service('Storage', function(){
-    return {
+    var accessor = {
       getTopics: function(){
-        // TODO: Well, just get it from the localstorage
+        return angular.fromJson(localStorage.getItem('topics'));
       },
       saveTopics: function(topics){
-        //TODO: Well put it to json and then to localstorage
+        localStorage.setItem('topics', angular.toJson(topics));
       },
       changeTopic: function(newTopic){
-        // TODO: Is this a new topic? Than Add it
-        // TODO: If not, set it active!
+        var topics = accessor.getTopics();
+        topics.forEach(function(topic){
+          topic.active = false;
+        });
+        newTopic.active = true;
+
+        if (topics.indexOf(newTopic) === -1){
+          topics.push(newTopic)
+        }
+        accessor.saveTopics(topics);
+        console.log(newTopic);
+        console.log(newTopic.questions);
+        return newTopic.questions;
       }
     };
+    return accessor;
   });
 }());

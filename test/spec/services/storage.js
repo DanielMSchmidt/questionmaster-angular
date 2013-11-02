@@ -31,7 +31,7 @@ describe('Service: Storage', function () {
   });
 
   it('should be able to change the topic', function(){
-    expect(Storage.changeTopic(topics[0].questions)).toEqual([]);
-    expect(Storage.changeTopic(topics[1].questions)).toEqual([{question: "What?", answer: "42"}]);
+    expect(Storage.changeTopic(topics[0])).toEqual([]);
+    expect(Storage.changeTopic(topics[1])).toEqual([{question: "What?", answer: "42"}]);
   });
 });
