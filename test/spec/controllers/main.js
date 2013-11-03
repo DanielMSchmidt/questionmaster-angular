@@ -34,7 +34,12 @@ describe('Controller: MainCtrl', function () {
         return scope.topics;
       },
       changeTopic: function(){
-        return [];
+        scope.topics[0].active = false;
+        scope.topics[1].active = true;
+        return scope.topics[0].questions;
+      },
+      saveTopics: function(){
+        return ;
       }
     }
 
@@ -43,8 +48,6 @@ describe('Controller: MainCtrl', function () {
       Storage: Storage
     });
   }));
-
-  // TODO: Write Mock for Storage (on change of questions)
 
   it('should get the right active Topic', function(){
     expect(scope.activeTopic).toEqual(scope.topics[0]);
@@ -55,36 +58,18 @@ describe('Controller: MainCtrl', function () {
       question: "Hallo",
       answer: "Welt"
     };
-    var len = scope.questions.length;
+    var len = scope.activeTopic.questions.length;
 
     scope.addQuestion();
-    expect(scope.questions.length).toEqual(len + 1);
+    expect(scope.activeTopic.questions.length).toEqual(len + 1);
   });
 
   it('should be able to change the topic', function(){
-    scope.changeTopic(scope.topics[0]);
     expect(scope.activeTopic).toEqual(scope.topics[0]);
     scope.changeTopic(scope.topics[1]);
 
     expect(scope.activeTopic).toEqual(scope.topics[1]);
     expect(scope.activeTopic.active).toEqual(true);
-  });
-
-  it('should be able to add a new topic', function(){
-    var newTopic = function(){
-      return {
-        name: "A new Topic",
-        active: false,
-        questions: []
-      };
-    };
-    var len = scope.topics.length;
-    scope.newTopic = newTopic();
-    scope.changeTopic();
-
-    expect(scope.newTopic).toBeUndefined;
-    expect(scope.topics.length).toEqual(len + 1);
-    expect(scope.activeTopic).toEqual(newTopic());
   });
 
 });

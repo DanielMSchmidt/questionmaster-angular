@@ -18,11 +18,17 @@
         topics.forEach(function(topic){
           topic.active = false;
         });
-        newTopic.active = true;
 
-        if (topics.indexOf(newTopic) === -1){
+        var index = topics.map(function(topic){
+          return topic.name
+        }).indexOf(newTopic.name);
+
+        if (index === -1){
+          index = topics.length;
           topics.push(newTopic)
         }
+
+        topics[index].active = true;
         accessor.saveTopics(topics);
 
         return newTopic.questions;

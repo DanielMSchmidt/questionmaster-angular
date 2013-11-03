@@ -9,7 +9,7 @@ app.defaultQuestion = function(){
   };
 app.defaultTopic = function() {
   return {
-    name: 'Neues Thema',
+    name: '',
     questions: [],
     active: false
   };
@@ -27,6 +27,7 @@ app.controller('MainCtrl', ['$scope', '$location', 'Storage', function ($scope, 
   // Initialization
   $scope.newQuestion = app.defaultQuestion();
   $scope.newTopic = app.defaultTopic();
+  $scope.newTopic.name = '';
 
   // Access stored data
   $scope.topics = Storage.getTopics();
@@ -37,30 +38,25 @@ app.controller('MainCtrl', ['$scope', '$location', 'Storage', function ($scope, 
     return;
   }
 
-  $scope.questions = $scope.activeTopic.questions;
-
   $scope.addQuestion = function(){
     if($scope.newQuestion.question === app.defaultQuestion().question){
       return ;
     }else{
-      $scope.questions.push($scope.newQuestion);
+      $scope.activeTopic.questions.push($scope.newQuestion);
       $scope.newQuestion = app.defaultQuestion();
+      Storage.saveTopics($scope.topics);
     }
   };
 
-  $scope.changeTopic = function() {
-    if(($scope.newTopic === undefined)){
+  $scope.changeTopic = function(newTopic) {
+    if((newTopic.name === '')){
       return ;
     }else{
-      $scope.questions = Storage.changeTopic($scope.newTopic);
+
+      $scope.activeTopic.questions = Storage.changeTopic(newTopic);
       $scope.topics = Storage.getTopics();
+      $scope.newTopic.name = '';
       setActiveTopic();
     }
   };
-
-  $scope.$watch('questions', function(newVal, oldVal){
-    console.log(newVal);
-    console.log(oldVal);
-    Storage.saveTopics($scope.topics);
-  });
 }]);
