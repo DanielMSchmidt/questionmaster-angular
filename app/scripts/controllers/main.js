@@ -64,15 +64,3 @@ app.controller('MainCtrl', ['$scope', '$location', 'Storage', function ($scope, 
     Storage.saveTopics($scope.topics);
   });
 }]);
-
-app.directive('question', function(){
-  return {
-    templateUrl: 'views/directives/question.html'
-  };
-});
-
-app.filter('reverse', function() {
-  return function(items) {
-    return items.slice().reverse();
-  };
-});

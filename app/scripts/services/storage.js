@@ -7,7 +7,8 @@
     var TOPICS_KEY = 'topics';
     var accessor = {
       getTopics: function(){
-        return angular.fromJson(localStorage.getItem(TOPICS_KEY));
+        var keys_from_storage = angular.fromJson(localStorage.getItem(TOPICS_KEY));
+        return (keys_from_storage === null) ? [] : keys_from_storage;
       },
       saveTopics: function(topics){
         localStorage.setItem(TOPICS_KEY, angular.toJson(topics));
