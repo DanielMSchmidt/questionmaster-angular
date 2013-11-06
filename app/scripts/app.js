@@ -7,6 +7,10 @@ angular.module('questionmasterAngularApp', [])
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/topic/new', {
+        templateUrl: 'views/newTopic.html',
+        controller: 'TopicsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

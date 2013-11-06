@@ -1,22 +1,36 @@
-<div class="row">
-  <form class="new_question panel">
-    <div class="row">
-      <div class="large-6 columns">
-        <label>Frage</label>
-        <textarea ng-model="newQuestion.question"></textarea>
+<div class="large-2 columns">
+  <h3>Neues Thema</h3>
+  <label>Name des Themas</label>
+  <input ng-model="newTopic.name" />
+  <button ng-click="changeTopic(newTopic)">Thema hinzufügen</button>
+  <ul>
+    <li ng-repeat="topic in topics">
+      <a class="{{class}}" ng-class="{disabled: topic==activeTopic}" ng-click="changeTopic(topic)">{{topic.name}}</a>
+    </li>
+  </ul>
+</div>
+<div class="large-10 columns">
+  <div class="row">
+    <button class="button expand" ng-click="showNewQuestion = !showNewQuestion" ng-show="!showNewQuestion">Neue Frage!</button>
+    <form ng-show="showNewQuestion" class="new_question panel">
+      <div class="row">
+        <div class="large-6 columns">
+          <label>Frage</label>
+          <textarea ng-model="newQuestion.question"></textarea>
+        </div>
+        <div class="large-6 columns">
+          <label>Antwort</label>
+          <textarea ng-model="newQuestion.answer"></textarea>
+        </div>
+        <button class="save large button expand" ng-click="addQuestion()">Save</button>
       </div>
-      <div class="large-6 columns">
-        <label>Antwort</label>
-        <textarea ng-model="newQuestion.answer"></textarea>
-      </div>
-      <button class="save large button expand" ng-click="save(newQuestion)">Save</button>
+    </form>
+    <div class="content large-9 columns large-centered">
+      <ul class="">
+        <li ng-repeat="question in activeTopic.questions | reverse">
+          <div question></div>
+        </li>
+      </ul>
     </div>
-  </form>
-  <div class="content large-9 columns large-centered">
-    <ul class="">
-      <li ng-repeat="question in questions | reverse">
-        <div question></div>
-      </li>
-    </ul>
   </div>
 </div>

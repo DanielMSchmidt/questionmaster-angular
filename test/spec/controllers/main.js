@@ -12,60 +12,64 @@ describe('Controller: MainCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    scope.activeTopic = "Hallo Topic";
+    scope.topics = [
+      {
+        name: "FirstTopic",
+        questions: [],
+        active: true
+      },{
+        name: "SecondTopic",
+        questions: [
+          {
+            question: "What?",
+            answer: "42"
+          }
+        ],
+        active: false
+      }
+    ];
+
+    Storage = {
+      getTopics: function(){
+        return scope.topics;
+      },
+      changeTopic: function(){
+        scope.topics[0].active = false;
+        scope.topics[1].active = true;
+        return scope.topics[0].questions;
+      },
+      saveTopics: function(){
+        return ;
+      }
+    }
 
     MainCtrl = $controller('MainCtrl', {
-      $scope: scope
+      $scope: scope,
+      Storage: Storage
     });
   }));
 
-  it('should have an array of questions', function () {
-    expect(Object.prototype.toString.call( scope.questions )).toBe('[object Array]');
+  it('should get the right active Topic', function(){
+    expect(scope.activeTopic).toEqual(scope.topics[0]);
   });
 
-  it('should have a localstorage', function() {
-    expect(localStorage).not.toBe(undefined);
+  it('should be able to add a question', function(){
+    scope.newQuestion = {
+      question: "Hallo",
+      answer: "Welt"
+    };
+    var len = scope.activeTopic.questions.length;
+
+    scope.addQuestion();
+    expect(scope.activeTopic.questions.length).toEqual(len + 1);
   });
 
-  it('should add a question if asked to', function() {
-    var oldLen = localStorage.length;
+  it('should be able to change the topic', function(){
+    expect(scope.activeTopic).toEqual(scope.topics[0]);
+    scope.changeTopic(scope.topics[1]);
 
-    scope.save({'question': 'Funktioniert es?', 'answer': 'Ja!'});
-
-    expect(localStorage.length).toBe(oldLen + 1);
-  });
-
-  it('should not add a question if its the default one', function() {
-    var oldLen = localStorage.length;
-
-    scope.save({'question': '...', 'answer': '...'});
-
-    expect(localStorage.length).toBe(oldLen);
-  });
-
-  it('should not add a question if there is no topic', function() {
-    var oldLen = localStorage.length;
-
-    scope.activeTopic = undefined;
-    scope.save({'question': 'I am', 'answer': 'valid'});
-
-    expect(localStorage.length).toBe(oldLen);
-  });
-
-  it('should change the count of questions if topic changes', function() {
-    var firstTopicLen = scope.questions.length;
-
-    scope.changeTopic('My New Topic');
-
-    expect(scope.questions.length).not.toBe(firstTopicLen);
-  });
-
-  it('shouldnt be able to add a topic with an already existing name', function() {
-    scope.topics = ['Hallo Welt'];
-
-    scope.changeTopic('Hallo Welt');
-
-    expect(scope.topics.length).toBe(1);
+    expect(scope.activeTopic).toEqual(scope.topics[1]);
+    expect(scope.activeTopic.active).toEqual(true);
   });
 
 });

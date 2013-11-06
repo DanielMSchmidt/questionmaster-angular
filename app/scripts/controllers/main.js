@@ -7,61 +7,57 @@ app.defaultQuestion = function(){
       answer: '...'
     };
   };
-app.defaultTopic = function() {return 'Neues Thema';};
+app.defaultTopic = function() {
+  return {
+    name: '',
+    questions: [],
+    active: false
+  };
+};
 
-app.controller('MainCtrl', ['$scope', 'Storage', function ($scope, Storage) {
+app.controller('MainCtrl', ['$scope', '$location', 'Storage', function ($scope, $location, Storage) {
+  var setActiveTopic = function(){
+    $scope.topics.forEach(function(topic){
+      if (topic.active){
+        $scope.activeTopic = topic;
+      }
+    });
+  };
 
   // Initialization
   $scope.newQuestion = app.defaultQuestion();
   $scope.newTopic = app.defaultTopic();
+  $scope.newTopic.name = '';
 
   // Access stored data
-  var questionStore = Storage.createQuestionAccessor($scope.activeTopic);
-  $scope.questions = questionStore.getQuestions();
+  $scope.topics = Storage.getTopics();
 
-  var topicStore = Storage.createTopicAccessor();
-  $scope.topics = topicStore.getTopics();
-  $scope.activeTopic = topicStore.getActiveTopic();
-
-  if ($scope.activeTopic === undefined){
-    // TODO: get me nicer than this
-    $scope.activeTopic = app.defaultTopic();
-    topicStore.setActiveTopic($scope.activeTopic);
+  setActiveTopic();
+  if($scope.activeTopic === undefined){
+    $location.path('/topic/new');
+    return;
   }
 
-  $scope.save = function(newQuestion){
-    if($scope.activeTopic && newQuestion.question !== app.defaultQuestion().question){
-      $scope.questions.push(newQuestion);
-      questionStore.addQuestion(newQuestion);
-      newQuestion = app.defaultQuestion();
+  $scope.addQuestion = function(){
+    if($scope.newQuestion.question === app.defaultQuestion().question){
+      return ;
     }else{
-      // Don't add if it doesnt differ
+      $scope.activeTopic.questions.push($scope.newQuestion);
+      $scope.newQuestion = app.defaultQuestion();
+      Storage.saveTopics($scope.topics);
+      $scope.showNewQuestion = false;
     }
   };
 
-  $scope.changeTopic = function (newTopicName){
-    if((newTopicName === undefined)){
-      return false;
+  $scope.changeTopic = function(newTopic) {
+    if((newTopic.name === '')){
+      return ;
+    }else{
+
+      $scope.activeTopic.questions = Storage.changeTopic(newTopic);
+      $scope.topics = Storage.getTopics();
+      $scope.newTopic.name = '';
+      setActiveTopic();
     }
-    topicStore.setActiveTopic(newTopicName);
-
-    $scope.activeTopic = newTopicName;
-    questionStore = Storage.createQuestionAccessor($scope.activeTopic);
-    $scope.questions = questionStore.getQuestions();
-  }
-
-
-
+  };
 }]);
-
-app.directive('question', function(){
-  return {
-    templateUrl: 'views/directives/question.html'
-  };
-});
-
-app.filter('reverse', function() {
-  return function(items) {
-    return items.slice().reverse();
-  };
-});

@@ -19,14 +19,13 @@ Refactorings:
 - move the new question into template / partial (http://docs.angularjs.org/api/ng.directive:ngInclude)
 - remove Question/Topic suffixes from their accessors
 - move add question into modal
-
+- style sidebar nicer
 
 Improvements:
 
-- Provide a possibility to change btw different subjects / topics
-  - Change topic via sidebar
 - Provide a possibility to take a test
 - Provide a possibility to search through your questions
+- Provide a possibility to add a bulk of questions
 - Add an error screen if localstorage isn't supported
 - refactor, so that topic is a big object with a title and an array of questions
 
