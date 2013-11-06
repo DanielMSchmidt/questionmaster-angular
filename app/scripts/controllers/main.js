@@ -45,6 +45,7 @@ app.controller('MainCtrl', ['$scope', '$location', 'Storage', function ($scope, 
       $scope.activeTopic.questions.push($scope.newQuestion);
       $scope.newQuestion = app.defaultQuestion();
       Storage.saveTopics($scope.topics);
+      $scope.showNewQuestion = false;
     }
   };
 
