@@ -1,3 +1,5 @@
+'use strict';
+
 var app = angular.module('questionmasterAngularApp');
 app.directive('question', function(){
   return {
